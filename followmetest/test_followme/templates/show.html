@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Data</title>
+    <style>
+        img{
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data will Show Here</h1>
+     {% if key %}
+    {% for k in key %}
+    <p>{{ k.FirstName }}</p>
+    <p>{{ k.LastName }}</p>
+    <p>{{ k.Email }}</p>
+    <p>{{ k.Contact }}</p>
+    {% endfor %}
+    {% endif %} --> 
+    
+    {% block content %}
+    <table class="container table w-50 m-3" style="border: 1px solid black; width: 100%;">
+        {% if key %}
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+        </tr>
+        {% for k in key %}
+        <tr style="text-align: center; border: 1px solid black;">
+            <td>{{k.id}}</td>
+            <td>{{ k.FirstName }}</td>
+            <td>{{ k.LastName }}</td>
+            <td>{{ k.Email }}</td>
+            <td>{{ k.Contact }}</td>
+            <td><img class="img img-fluid" src="{{MEDIA_ROOT}}{{ k.imageURL }}" alt="profile pic" style="height: 50px; width: 50%;"></td>
+            <td>
+                <form name="editVal" action="{% url 'editData' pk=k.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Edit">
+                </form>
+            </td>
+            <td>
+                <form name="deleteVal" action="{% url 'deleteData' pk=k.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Del">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+    {% endblock %}
+    <p><a href="{% url 'home' %}">Home Page</a></p>
+    <p><a href="{% url 'newreg' %}">Registration Form</a></p>
+</body>
+</html>

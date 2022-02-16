@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">    
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/css/mdb.min.css"> -->
+    <title>Home</title>
+    <style>
+        .dp
+        {
+            border-radius: 20%;
+            border: 1px solid black;
+            height: 50px;
+            width: 50px;
+        }
+        .postimg{
+            border-radius: 20%;
+            border: 1px solid black;
+            height: 100px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg text-white bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">Django-Crud-App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'newreg' %}">Register</a>
+            </li>
+            {% if request.session.FisrtName %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'showData' %}">Users</a>
+            </li>
+            <li class="nav-item dropdown mr-auto float-right">
+              <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
+                <img class="dp img" src="{{MEDIA_ROOT}}{{ request.session.ProfilePic }}" alt="profile image"></a>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>                
+              </div>
+            </li>            
+            {% else %}
+            <li class="nav-item">
+                 <form class="form-inline" action="{% url 'loginPage' %}" method="POST">
+                    {% csrf_token %}
+                    <input class="btn btn-primary" type="submit" value="Login">
+                </form>
+            </li>
+            </ul>
+            {% endif %}
+        </div>
+      </nav>
+    <!-- Navigation -->
+    <!-- <nav class="mb-4 navbar navbar-expand-lg navbar-dark cyan">
+        <a class="navbar-brand font-bold m-auto" href="{% url 'home' %}">Django Crude App </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navigation">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'newreg' %}"><i class="fa fa-envelope"></i> Register <span class="sr-only">(current)</span></a>
+                </li>
+                {% if request.session.FisrtName %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'showData' %}"><i class="fa fa-gear"></i> Users</a>
+                </li>
+            </ul>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="dp" src="{{MEDIA_ROOT}}{{ request.session.ProfilePic }}" alt="profile image"></a>
+                    <div class="dropdown-menu dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                    </div>
+                </div>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-primary btn-sm" href="{% url 'loginPage' %}">Login</a>
+                     <form class="form-inline" action="{% url 'loginPage' %}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit" value="Login">
+                    </form> -->
+                <!-- </li>
+                {% endif %}
+            
+        </div>
+    </nav> -->
+    
+    {% block content %}
+    <!-- Main Container -->
+    <div class="container-fluid">
+    <h1>This is home page</h1>
+    <div class="container-fluid border border-light d-flex">
+    {% if post %}
+    {% for p in post %}
+    <div class="card col-lg-2 m-4" style="width: 18rem;">
+        <img src="{{MEDIA_ROOT}}{{ p.pimg.url }}" class="card-img-top p-2" alt="Post Image">
+        <div class="card-body">
+          <h5 class="card-title">{{p.pheading}}</h5>
+          <p class="card-text">{{p.ptext}}</p>
+          <button class="btn btn-primary">{{p.userid.FirstName}}</button><label class="h6">{{p.pdate}}</label>
+        </div>
+      </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+    {% endblock %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
